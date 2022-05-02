@@ -1,0 +1,31 @@
+#navbar{
+    display: flex;
+    
+    height: 30px;
+    width: 500px;
+    margin-left: 500px;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+    margin-left: 50px;
+    font-family: 'Poppins', sans-serif;
+}
+#detailed_news{
+    margin-top: 50px;
+}
+#detailed_news  img{
+    height: 400px;
+    width: 400px; 
+    border-radius: 10px;
+    margin-left: 35%;
+}
+
+h3,p{
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+input{
+    font-family: 'Poppins', sans-serif;
+}

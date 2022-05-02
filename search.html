@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search results</title><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200&family=Poppins:wght@300&family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body>
+    <!-- Same navbar with same functionality  -->
+    <div id="navbar"></div>
+
+    <!-- Append results inside div with id "results"  -->
+    <!-- News divs will have class "news"  -->
+
+    <div id="results"></div>
+  
+  </body>
+</html>
+<script type="module">
+   
+   import {navbar, top} from "../components/navbar.js" ;
+ document.querySelector("#navbar").innerHTML=navbar() ;
+ 
+ 
+
+
+ let searched = localStorage.getItem("searched") ;
+ console.log(searched)
+
+   async function news() {
+
+       try{
+              let res  = await fetch(`https://masai-mock-api.herokuapp.com/news?q=${searched}`) ;
+              let data = await res.json() ;
+              console.log(data)
+             display(data.articles)
+
+
+       }catch(err) {
+         console.log(err)
+       }
+
+
+
+
+    }
+
+    news()
+
+   let parent = document.querySelector("#results") ;
+
+  function display(data) {
+    data.forEach(({title,content,description,urlToImage})=>{
+
+         let  div = document.createElement("div") ;
+              div.addEventListener("click",show_news)
+              div.style.cursor="pointer"
+
+
+         div.setAttribute("class","news")
+         let img = document.createElement("img") ;
+         let t = document.createElement("h3") ;
+         let des = document.createElement("p") ;
+         let c = document.createElement("p") ;
+
+         img.src=urlToImage;
+         t.innerText = title;
+         des.innerText=description;
+         c.innerText=content;
+
+         div.append(img,t,c,des) ;
+         parent.append(div)  ;
+ 
+         var Arr =  JSON.parse(localStorage.getItem("news")) || [] ;
+
+         function show_news() {
+               var obj = {
+                  img:urlToImage,
+                  Title:title,
+                  DEscription:description,
+                 content:content
+                }
+                Arr.push(obj) ;
+                console.log(Arr) ;
+                localStorage.setItem("news",JSON.stringify(Arr)) ;
+                window.location.href="news.html"
+          }
+
+         
+         
+    })
+  }
+
+
+   
+
+
+
+</script>
